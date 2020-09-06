@@ -34,7 +34,7 @@ class AddressTest extends PHPUnit_Framework_TestCase
      * @since 1.0.0
      *
      * @expectedException        Exception
-     * @expectedExceptionMessage Province is missing.
+     * @expectedExceptionMessage Province code is missing.
      */
     public function testIsValidMissingProvinceException()
     {
@@ -81,7 +81,7 @@ class AddressTest extends PHPUnit_Framework_TestCase
      * @since 1.0.0
      *
      * @expectedException        Exception
-     * @expectedExceptionMessage Canton code must contain 2 digits.
+     * @expectedExceptionMessage Canton must contain 2 digits.
      */
     public function testIsValidInvalidCantonException()
     {
@@ -115,7 +115,7 @@ class AddressTest extends PHPUnit_Framework_TestCase
      * @since 1.0.0
      *
      * @expectedException        Exception
-     * @expectedExceptionMessage District code must contain 2 digits.
+     * @expectedExceptionMessage District must contain 2 digits.
      */
     public function testIsValidInvalidDistrictException()
     {
