@@ -21,13 +21,14 @@ class VoucherTest extends PHPUnit_Framework_TestCase
     public function testProperties()
     {
         // Prepare
-        $voucher = new Voucher;
+        $voucher       = new Voucher;
         $voucher->time = 1;
         $voucher->addEntity('issuer', EntityType::INDIVIDUAL, 2);
         $voucher->addEntity('receiver', EntityType::INDIVIDUAL, 3);
         // Assert
         //$this->assertEquals('{"time":1,"issuer":2,"receiver":3,"hasEncryption":false}', (string)$voucher);
     }
+
     /**
      * Test addEntity method.
      * @since 1.0.0
@@ -35,9 +36,9 @@ class VoucherTest extends PHPUnit_Framework_TestCase
     public function testAddEntityWithModel()
     {
         // Prepare
-        $voucher = new Voucher;
-        $entity = new Entity;
-        $entity->id = '1-1212-0030';
+        $voucher      = new Voucher;
+        $entity       = new Entity;
+        $entity->id   = '1-1212-0030';
         $entity->type = EntityType::INDIVIDUAL;
         // Execute
         $voucher->addEntity('issuer', $entity);
@@ -46,6 +47,7 @@ class VoucherTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(112120030, $voucher->issuer->id);
         $this->assertEquals('01', $voucher->issuer->type);
     }
+
     /**
      * Test addEntity method.
      * @since 1.0.0
@@ -60,6 +62,7 @@ class VoucherTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(112120030, $voucher->issuer->id);
         $this->assertEquals('01', $voucher->issuer->type);
     }
+
     /**
      * Test addEntity method exception.
      * @since 1.0.0
@@ -70,13 +73,14 @@ class VoucherTest extends PHPUnit_Framework_TestCase
     public function testAddEntityExceptionModel()
     {
         // Prepare
-        $voucher = new Voucher;
-        $entity = new stdClass;
-        $entity->id = '1-1212-0030';
+        $voucher      = new Voucher;
+        $entity       = new stdClass;
+        $entity->id   = '1-1212-0030';
         $entity->type = EntityType::INDIVIDUAL;
         // Execute
         $voucher->addEntity('issuer', $entity);
     }
+
     /**
      * Test addEntity method exception.
      * @since 1.0.0
@@ -91,6 +95,7 @@ class VoucherTest extends PHPUnit_Framework_TestCase
         // Execute
         $voucher->addEntity('issuer', '');
     }
+
     /**
      * Test addEntity method exception.
      * @since 1.0.0
@@ -105,6 +110,7 @@ class VoucherTest extends PHPUnit_Framework_TestCase
         // Execute
         $voucher->addEntity('issuer', EntityType::INDIVIDUAL);
     }
+
     /**
      * Test addEntity method exception.
      * @since 1.0.0
@@ -119,6 +125,7 @@ class VoucherTest extends PHPUnit_Framework_TestCase
         // Execute
         $voucher->addEntity('issuer', EntityType::INDIVIDUAL, '');
     }
+
     /**
      * Test addEntity method with spanish entity names.
      * @since 1.0.0
@@ -138,6 +145,7 @@ class VoucherTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(654321, $voucher->receiver->id);
         $this->assertEquals('02', $voucher->receiver->type);
     }
+
     /**
      * Test p12 encryption.
      * @since 1.0.0
@@ -145,9 +153,9 @@ class VoucherTest extends PHPUnit_Framework_TestCase
     public function testEncryption()
     {
         // Prepare
-        $filename = __DIR__.'/../key.p12';
-        $pin = '1234';
-        $voucher = new Voucher($filename, $pin);
+        $filename     = __DIR__ . '/../key.p12';
+        $pin          = '1234';
+        $voucher      = new Voucher($filename, $pin);
         $voucher->xml = new SimpleXMLElement('<xml>test</xml>');
         // Exec
         $crypted = $voucher->encryptedXml;
@@ -156,6 +164,7 @@ class VoucherTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty($crypted);
         $this->assertNotEquals('<xml>test</xml>', $crypted);
     }
+
     /**
      * Test no encryption due to missing key.
      * @since 1.0.0
@@ -163,13 +172,14 @@ class VoucherTest extends PHPUnit_Framework_TestCase
     public function testMissingEncryptionKey()
     {
         // Prepare
-        $pin = '1234';
-        $voucher = new Voucher(null, $pin);
+        $pin          = '1234';
+        $voucher      = new Voucher(null, $pin);
         $voucher->xml = new SimpleXMLElement('<xml>test</xml>');
         // Assert
         $this->assertFalse($voucher->hasEncryption);
         $this->assertNull($voucher->encryptedXml);
     }
+
     /**
      * Test no encryption due to missing key.
      * @since 1.0.0
@@ -177,47 +187,50 @@ class VoucherTest extends PHPUnit_Framework_TestCase
     public function testMissingEncryptionPin()
     {
         // Prepare
-        $filename = __DIR__.'/../key.p12';
-        $voucher = new Voucher($filename, null);
+        $filename     = __DIR__ . '/../key.p12';
+        $voucher      = new Voucher($filename, null);
         $voucher->xml = new SimpleXMLElement('<xml>test</xml>');
         // Assert
         $this->assertFalse($voucher->hasEncryption);
         $this->assertNull($voucher->encryptedXml);
     }
+
     /**
      * Test exception
      * @since 1.0.0
-     * 
+     *
      * @expectedException        Exception
      * @expectedExceptionMessage Failed to encrypt XML.
      */
     public function testFailedEncryptionException()
     {
         // Prepare
-        $filename = __DIR__.'/../key.p12';
-        $pin = '9999';
-        $voucher = new Voucher($filename, $pin);
+        $filename     = __DIR__ . '/../key.p12';
+        $pin          = '9999';
+        $voucher      = new Voucher($filename, $pin);
         $voucher->xml = new SimpleXMLElement('<xml>test</xml>');
         // Exec
         $crypted = $voucher->encryptedXml;
     }
+
     /**
      * Test exception
      * @since 1.0.0
-     * 
+     *
      * @expectedException        Exception
      * @expectedExceptionMessage Xml must be an instance of class SimpleXMLElement.
      */
     public function testInvalidXMLException()
     {
         // Prepare
-        $filename = __DIR__.'/../key.p12';
-        $pin = '1234';
-        $voucher = new Voucher($filename, $pin);
+        $filename     = __DIR__ . '/../key.p12';
+        $pin          = '1234';
+        $voucher      = new Voucher($filename, $pin);
         $voucher->xml = '<xml>test</xml>';
         // Exec
         $crypted = $voucher->encryptedXml;
     }
+
     /**
      * Test reception casting.
      * @since 1.0.0
@@ -225,10 +238,10 @@ class VoucherTest extends PHPUnit_Framework_TestCase
     public function testValidReceptionCasting()
     {
         // Prepare
-        $voucher = new Voucher;
-        $voucher->key = 1;
+        $voucher       = new Voucher;
+        $voucher->key  = 1;
         $voucher->time = 1522252244;
-        $voucher->xml = new SimpleXMLElement('<xml>test</xml>');
+        $voucher->xml  = new SimpleXMLElement('<xml>test</xml>');
         $voucher->addEntity('issuer', EntityType::INDIVIDUAL, 123456);
         // Exec
         $array = $voucher->toReceptionArray();
@@ -243,10 +256,11 @@ class VoucherTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('comprobanteXml', $array);
         $this->assertInternalType('string', $array['comprobanteXml']);
     }
+
     /**
      * Test exception
      * @since 1.0.0
-     * 
+     *
      * @expectedException        Exception
      * @expectedExceptionMessage Issuer is missing.
      */
@@ -257,25 +271,27 @@ class VoucherTest extends PHPUnit_Framework_TestCase
         // Exec
         $array = $voucher->toReceptionArray();
     }
+
     /**
      * Test exception
      * @since 1.0.0
-     * 
+     *
      * @expectedException        Exception
      * @expectedExceptionMessage Issuer must be an instance of class Entity.
      */
     public function testReceptionInvalidIssuerException()
     {
         // Prepare
-        $voucher = new Voucher;
+        $voucher         = new Voucher;
         $voucher->issuer = 12345;
         // Exec
         $array = $voucher->toReceptionArray();
     }
+
     /**
      * Test exception
      * @since 1.0.0
-     * 
+     *
      * @expectedException        Exception
      * @expectedExceptionMessage XML string is missing.
      */
@@ -287,10 +303,11 @@ class VoucherTest extends PHPUnit_Framework_TestCase
         // Exec
         $array = $voucher->toReceptionArray();
     }
+
     /**
      * Test exception
      * @since 1.0.0
-     * 
+     *
      * @expectedException        Exception
      * @expectedExceptionMessage Xml must be an instance of class SimpleXMLElement.
      */
@@ -303,10 +320,11 @@ class VoucherTest extends PHPUnit_Framework_TestCase
         // Exec
         $array = $voucher->toReceptionArray();
     }
+
     /**
      * Test exception
      * @since 1.0.0
-     * 
+     *
      * @expectedException        Exception
      * @expectedExceptionMessage Key is missing.
      */
@@ -319,10 +337,11 @@ class VoucherTest extends PHPUnit_Framework_TestCase
         // Exec
         $array = $voucher->toReceptionArray();
     }
+
     /**
      * Test exception
      * @since 1.0.0
-     * 
+     *
      * @expectedException        Exception
      * @expectedExceptionMessage Key is greater than 50 characters.
      */
@@ -333,10 +352,11 @@ class VoucherTest extends PHPUnit_Framework_TestCase
         $voucher->addEntity('issuer', EntityType::INDIVIDUAL, 123456);
         $voucher->xml = new SimpleXMLElement('<xml>test</xml>');
         $voucher->key = '123456789101234567891012345678910'
-            .'123456789101234567891012345678910';
+            . '123456789101234567891012345678910';
         // Exec
         $array = $voucher->toReceptionArray();
     }
+
     /**
      * Test reception casting.
      * @since 1.0.0
@@ -344,13 +364,13 @@ class VoucherTest extends PHPUnit_Framework_TestCase
     public function testValidReceptionCastingExtraFields()
     {
         // Prepare
-        $voucher = new Voucher;
-        $voucher->key = 1;
+        $voucher       = new Voucher;
+        $voucher->key  = 1;
         $voucher->time = 1522252244;
-        $voucher->xml = new SimpleXMLElement('<xml>test</xml>');
+        $voucher->xml  = new SimpleXMLElement('<xml>test</xml>');
         $voucher->addEntity('issuer', EntityType::INDIVIDUAL, 123456);
         $voucher->addEntity('receiver', EntityType::INDIVIDUAL, 789101);
-        $voucher->callback = 'http://test.com';
+        $voucher->callback       = 'http://test.com';
         $voucher->receiverSerial = 101;
         // Exec
         $array = $voucher->toReceptionArray();

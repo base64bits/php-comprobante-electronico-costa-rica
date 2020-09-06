@@ -13,7 +13,7 @@ use ComprobanteElectronico\Traits\XmlWithPaymentsTrait;
 
 /**
  * Invoice XML model.
- * 
+ *
  * @link https://tribunet.hacienda.go.cr/docs/esquemas/2016/v4.2/FacturaElectronica_V4.2.pdf
  *
  * @author Cami M <info@10quality.com>
@@ -27,35 +27,35 @@ class Invoice extends Model
     /**
      * Indicates the root element.
      * @since 1.0.0
-     * 
+     *
      * @var string
      */
     protected $element = 'FacturaElectronica';
     /**
      * Indicates the schema used.
      * @since 1.0.0
-     * 
+     *
      * @var string
      */
     protected $schema = 'https://tribunet.hacienda.go.cr/docs/esquemas/2017/v4.2/facturaElectronica';
     /**
      * Indicates the schema location used.
      * @since 1.0.0
-     * 
+     *
      * @var string
      */
     protected $schemaLocation = 'https://tribunet.hacienda.go.cr/docs/esquemas/2017/v4.2/FacturaElectronica_V.4.2.xsd';
     /**
      * Indicates the version used.
      * @since 1.0.0
-     * 
+     *
      * @var string
      */
     protected $version = '4.3';
     /**
      * Returns the document type or code used to generate the sequential number.
      * @since 1.0.0
-     * 
+     *
      * @var string
      */
     protected $doctype = '01';
@@ -97,7 +97,7 @@ class Invoice extends Model
     /**
      * Returns flag indicating if model is valid for casting.
      * @since 1.0.0
-     * 
+     *
      * @throws Exception
      *
      * @return bool
@@ -119,8 +119,7 @@ class Invoice extends Model
         if (!SaleType::exists($this->saleType))
             throw new Exception(sprintf(__i18n('%s \'%s\' is unknown.'), __i18n('Sale type'), $this->saleType));
         if ($this->saleType === SaleType::CREDIT
-            && ($this->creditTerms === null || strlen($this->creditTerms) === 0)
-        )
+            && ($this->creditTerms === null || strlen($this->creditTerms) === 0))
             throw new Exception(sprintf(__i18n('%s is required if %s is \'%s\'.'), __i18n('Credit terms'), __i18n('Sale type'), 'CREDIT'));
         if ($this->saleType === SaleType::CREDIT && strlen($this->creditTerms) > 10)
             throw new Exception(sprintf(__i18n('%s can not have more than %d characters.'), __i18n('Credit terms'), 10));
@@ -182,7 +181,7 @@ class Invoice extends Model
     /**
      * Returns model as its expected XML string.
      * @since 1.0.0
-     * 
+     *
      * @link https://tribunet.hacienda.go.cr/docs/esquemas/2016/v4.2/FacturaElectronica_V.4.2.xsd
      *
      * @return SimpleXMLElement
@@ -190,7 +189,7 @@ class Invoice extends Model
     public function toXml()
     {
         $xml = parent::toXml();
-        // Clave
+        // Codigo Actividad
         $xmlChild = $xml->addChild('CodigoActividad', $this->activityCode);
         // Clave
         $xmlChild = $xml->addChild('Clave', $this->key);
