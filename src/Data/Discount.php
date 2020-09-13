@@ -26,28 +26,33 @@ class Discount extends Model implements XmlAppendable
         'amount',
         'description',
     ];
+
     /**
      * Returns flag indicating if model is valid for casting.
      * @since 1.0.0
-     * 
+     *
      * @throws Exception
      *
      * @return bool
      */
     public function isValid()
     {
-        if ($this->amount && !is_numeric($this->amount))
+        if ($this->amount && !is_numeric($this->amount)) {
             throw new Exception(sprintf(__i18n('%s is not numeric.'), __i18n('Amount')));
-        if ($this->amount && $this->amount > 9999999999999.99999)
+        }
+        if ($this->amount && $this->amount > 9999999999999.99999) {
             throw new Exception(sprintf(__i18n('%s should be lower than %s.'), __i18n('Amount'), 9999999999999.99999));
-        if ($this->description && strlen($this->description) > 80)
+        }
+        if ($this->description && strlen($this->description) > 80) {
             throw new Exception(sprintf(__i18n('%s can not have more than %d characters.'), __i18n('Description'), 80));
+        }
         return true;
     }
+
     /**
      * Appends their data to an xml structure.
      * @since 1.0.0
-     * 
+     *
      * @param string            $element Element to append as.
      * @param \SimpleXMLElement &$xml    XML structure to append to.
      */
@@ -58,7 +63,7 @@ class Discount extends Model implements XmlAppendable
         $xmlChild->addChild('MontoDescuento', number_format($this->amount, 5, '.', ''));
         $xmlChild->addChild(
             'NaturalezaDescuento',
-            strlen($this->description) > 80 ? substr($this->description, 0, 77).'...' : $this->description
+            strlen($this->description) > 80 ? substr($this->description, 0, 77) . '...' : $this->description
         );
     }
 }

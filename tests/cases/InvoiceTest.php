@@ -51,11 +51,13 @@ class InvoiceTest extends PHPUnit_Framework_TestCase
         $invoice->totalNetSales       = 9.99;
         $invoice->totalTaxes          = 9.99;
         $invoice->total               = 110.99;
-        $expected                     = '{"key":"KEY","id":501,"date":"2018-12-01 22:15","issuer":{"id":112500368,"type":"01"},'
+        $expected                     =
+            '{"key":"KEY","id":501,"date":"2018-12-01 22:15","issuer":{"id":112500368,"type":"01"},'
             . '"receiver":{"id":112500368,"type":"01"},"saleType":"01","paymentType":"02","creditTerms":"month",'
             . '"currency":"USD","exchangeRate":541,"totalTaxedServices":9.99,"totalExemptServices":9.99,'
             . '"totalTaxedGoods":9.99,"totalExemptGoods":9.99,"totalTaxed":9.99,"totalExempt":9.99,"totalSales":9.99,'
             . '"totalDiscount":9.99,"totalNetSales":9.99,"totalTaxes":9.99,"total":110.99,"items":[]}';
+
         // Assert
         $this->assertEquals($expected, (string)$invoice);
     }

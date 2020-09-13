@@ -29,6 +29,7 @@ class InvoiceXmlTest extends PHPUnit_Framework_TestCase
         // Assert
         $invoice->toXml();
     }
+
     /**
      * Simple conversion.
      * @since 1.0.0
@@ -36,14 +37,14 @@ class InvoiceXmlTest extends PHPUnit_Framework_TestCase
     public function testSimpleXml()
     {
         // Prepare
-        $invoice = new Invoice;
-        $invoice->key = 'KEY';
-        $invoice->id = 501;
-        $invoice->date = '2018-12-01 22:15';
-        $invoice->saleType = SaleType::CASH;
+        $invoice              = new Invoice;
+        $invoice->key         = 'KEY';
+        $invoice->id          = 501;
+        $invoice->date        = '2018-12-01 22:15';
+        $invoice->saleType    = SaleType::CASH;
         $invoice->paymentType = PaymentType::CASH;
-        $invoice->currency = 'USD';
-        $invoice->normative = new Normative(['number' => 123, 'date' => time()]);
+        $invoice->currency    = 'USD';
+        $invoice->normative   = new Normative(['number' => 123, 'date' => time()]);
         // Exec
         $xml = $invoice->toXml();
         // Assert

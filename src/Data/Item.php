@@ -275,7 +275,7 @@ class Item extends Model implements XmlAppendable
      *
      * @param string            $element Element to append as.
      * @param \SimpleXMLElement &$xml    XML structure to append to.
-     * @param arrat             $args    Additional arguments.
+     * @param array             $args    Additional arguments.
      */
     public function appendXmlWithArgs($element, &$xml, $args)
     {

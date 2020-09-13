@@ -25,8 +25,9 @@ class VoucherTest extends PHPUnit_Framework_TestCase
         $voucher->time = 1;
         $voucher->addEntity('issuer', EntityType::INDIVIDUAL, 2);
         $voucher->addEntity('receiver', EntityType::INDIVIDUAL, 3);
+
         // Assert
-        //$this->assertEquals('{"time":1,"issuer":2,"receiver":3,"hasEncryption":false}', (string)$voucher);
+        // $this->assertEquals('{"time":1,"issuer":2,"receiver":3,"hasEncryption":false}', (string)$voucher);
     }
 
     /**
@@ -68,7 +69,7 @@ class VoucherTest extends PHPUnit_Framework_TestCase
      * @since 1.0.0
      *
      * @expectedException        Exception
-     * @expectedExceptionMessage Expecting object parameter to be an instance of 'ComprobanteElectronico\Data\Entity'.
+     * @expectedExceptionMessage Parameter must be an instance of class 'ComprobanteElectronico\Data\Entity'.
      */
     public function testAddEntityExceptionModel()
     {
@@ -153,8 +154,8 @@ class VoucherTest extends PHPUnit_Framework_TestCase
     public function testEncryption()
     {
         // Prepare
-        $filename     = __DIR__ . '/../key.p12';
-        $pin          = '1234';
+        $filename     = __DIR__ . '/key.p12';
+        $pin          = '5050';
         $voucher      = new Voucher($filename, $pin);
         $voucher->xml = new SimpleXMLElement('<xml>test</xml>');
         // Exec
@@ -172,7 +173,7 @@ class VoucherTest extends PHPUnit_Framework_TestCase
     public function testMissingEncryptionKey()
     {
         // Prepare
-        $pin          = '1234';
+        $pin          = '5050';
         $voucher      = new Voucher(null, $pin);
         $voucher->xml = new SimpleXMLElement('<xml>test</xml>');
         // Assert
@@ -187,7 +188,7 @@ class VoucherTest extends PHPUnit_Framework_TestCase
     public function testMissingEncryptionPin()
     {
         // Prepare
-        $filename     = __DIR__ . '/../key.p12';
+        $filename     = __DIR__ . '/key.p12';
         $voucher      = new Voucher($filename, null);
         $voucher->xml = new SimpleXMLElement('<xml>test</xml>');
         // Assert
@@ -199,13 +200,13 @@ class VoucherTest extends PHPUnit_Framework_TestCase
      * Test exception
      * @since 1.0.0
      *
-     * @expectedException        Exception
+     * @expectedException
      * @expectedExceptionMessage Failed to encrypt XML.
      */
     public function testFailedEncryptionException()
     {
         // Prepare
-        $filename     = __DIR__ . '/../key.p12';
+        $filename     = __DIR__ . '/key.p12';
         $pin          = '9999';
         $voucher      = new Voucher($filename, $pin);
         $voucher->xml = new SimpleXMLElement('<xml>test</xml>');
@@ -217,14 +218,14 @@ class VoucherTest extends PHPUnit_Framework_TestCase
      * Test exception
      * @since 1.0.0
      *
-     * @expectedException        Exception
+     * @expectedException
      * @expectedExceptionMessage Xml must be an instance of class SimpleXMLElement.
      */
     public function testInvalidXMLException()
     {
         // Prepare
-        $filename     = __DIR__ . '/../key.p12';
-        $pin          = '1234';
+        $filename     = __DIR__ . '/key.p12';
+        $pin          = '5050';
         $voucher      = new Voucher($filename, $pin);
         $voucher->xml = '<xml>test</xml>';
         // Exec
